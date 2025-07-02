@@ -1,1 +1,13 @@
-venv/.DS_Store
+# macOS metadata
+.DS_Store
+
+# Python virtual envs
+venv/
+**/venv/
+
+# dotenv file
+.env
+
+# IDE folders
+.vscode/
+.idea/
