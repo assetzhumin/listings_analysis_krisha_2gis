@@ -18,11 +18,16 @@ from math import log
 
 load_dotenv()
 db_url = os.getenv("DATABASE_URL")
-engine = create_engine(db_url)
 
 @st.cache_data
 def load_data():
-    return pd.read_sql("SELECT rooms, area_m2, floor, year_built, region, rating_2gis, price_kzt, link FROM joined_listings", engine)
+    try:
+        engine = create_engine(db_url)
+        return pd.read_sql("SELECT * FROM joined_listings", engine)
+    except Exception:
+        # Fallback to CSV in your repo
+        return pd.read_csv("data/merged_listings_with_ratings.csv")
+
 df = load_data()
 st.title("Аналитика недвижимости по обьявлениям krisha.kz")
 filtered = df.copy()
