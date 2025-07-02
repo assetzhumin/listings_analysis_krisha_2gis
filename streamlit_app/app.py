@@ -79,20 +79,18 @@ chart3 = alt.Chart(filtered).mark_circle(size=60).encode(
 )
 st.altair_chart(chart3, use_container_width=True)
 
-# === Количество объявлений по районам ===
-st.header("Количество объявлений по районам")
-region_counts = (
-    df['region']
-      .value_counts()
-      .reset_index()
-      .rename(columns={'index': 'region', 'region': 'count'})
-)
-chart_counts = alt.Chart(region_counts).mark_bar().encode(
+# ─── Region Distribution ────────────────────────────────────────────────────────
+st.header("Распределение объявлений по районам")
+region_counts = filtered['region'].value_counts().reset_index()
+region_counts.columns = ['region', 'count']
+
+chart_region = alt.Chart(region_counts).mark_bar().encode(
     x=alt.X('region:O', sort='-y', title='Район'),
-    y=alt.Y('count:Q', title='Число объявлений'),
+    y=alt.Y('count:Q',  title='Количество объявлений'),
     tooltip=['region', 'count']
 )
-st.altair_chart(chart_counts, use_container_width=True)
+st.altair_chart(chart_region, use_container_width=True)
+
 
 st.header("Оценка цены по параметрам")
 
